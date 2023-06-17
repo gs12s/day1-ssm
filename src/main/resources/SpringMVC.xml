@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启包扫描-->
+    <!--<context:component-scan base-package="com.hpf.controller"/>-->
+    <context:component-scan base-package="com.hpf.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--将静态资源放行（一步到位，推荐）-->
+    <mvc:default-servlet-handler/>
+
+    <!--
+        SpringMVC中有5大组件(4大核心组件)
+            前端控制器(DispatcherServlet)在web.xml文件中配置
+            视图解析器(InternalResourceViewResolver)在springMVC的配置文件中
+            处理器映射器(RequestMappingHandlerMapping)在springMVC的配置文件中
+            处理器适配器(RequestMappingHandlerAdapter)在springMVC的配置文件中
+            处理器(暂时没有配置)
+    -->
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--可以使用注解自动配置处理器映射器和处理器适配器及处理器-->
+    <mvc:annotation-driven/>
+</beans>

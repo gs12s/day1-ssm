@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--引入外部属性文件-->
+    <!--<context:component-scan base-package="com.hpf.service"/>-->
+    <context:component-scan base-package="com.hpf.service">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--开启包扫描-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--管理数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.name}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置userDao(扫描dao中的方法)-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--开启包扫描-->
+        <property name="basePackage" value="com.hpf.dao"/>
+    </bean>
+    <!--配置sessionFactory-->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--使用别名-->
+        <property name="typeAliasesPackage" value="com.hpf.pojo"/>
+    </bean>
+</beans>
