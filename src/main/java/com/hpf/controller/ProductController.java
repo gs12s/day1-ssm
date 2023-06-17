@@ -48,6 +48,4 @@ public class ProductController {
         model.addAttribute("list",list);
         return "success";
     }
-
-    //参数冲突(@RequestParam进行参数绑定)
 }
